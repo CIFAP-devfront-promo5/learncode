@@ -1,0 +1,193 @@
+// without default second title overwrites first,
+// but default tells that set this value if there is no
+// variable with this name exists
+//
+// so you can write variables in partials with default
+// and if needed, reinitialize it in global main.sass
+$title: 'My Blog'
+$title: 'About me' !default
+
+$boolean: true
+$list: nick dan aimee drew
+$shadow: null
+
+// variables have scope!
+p
+    $border: #ccc
+    border-top: 1px solid $border
+
+// interpolation
+$side: top
+sup
+    #{$side}: -0.5em
+.callout-#{$side}
+    background: #777
+
+// mixin
+@mixin box-sizing($color, $x: border-box) // default value for x
+    -webkit-box-sizing: $x
+    box-sizing: $x
+
+@mixin other($val...) // ... indication that there will be only one value
+
+.btn
+    @include box-sizing($color: white) // clear style of argument passing
+    background: #ff0
+
+$properties: 4px, #000
+.btn-a
+    @include box-sizing($properties...) // unpacking values
+
+@mixin hightlight($color, $side)
+    boorder-#{$side}: $color
+
+// bad extends
+.btn-a
+    color: green
+
+.btn-b
+    @extend .btn-a
+    background: 10px
+
+// good extends
+// placeholder selectors
+// scoped extends!
+
+%btn
+    background: #777
+
+.btn-a
+    @extend %btn
+
+.btn-b
+    @extend %btn
+
+// directives
+@function fluidize($target, $context)
+    @return ($target / $contaxt) * 100%
+
+.sidebar
+    width: fluidize(350, 1000)
+
+// if
+$theme: dark;
+header {
+    @if $theme == dark {
+        background: #000;
+    } @else if $theme == pink {
+    } @else {
+        background: #fff;
+    }
+}
+
+// each
+$authors: nick amy tom
+
+@each $author in $authors {
+    .author-#{$author} {
+        background: url(author-#{$author}.jpg);
+    }
+}
+
+//for
+.item {
+    position: absolute;
+    right: 0;
+    @for $i from 1 throught 3 {
+        &.item-#{$i} {
+            top: $i * 30px;
+        }
+    }
+}
+
+// while
+$li: 2;
+.item {
+    @while $i < 6 {
+        &.item=#{$i} {
+            top: $i * 30px;
+        }
+        $i: $i + 2;
+    }
+}
+
+// smart mixin
+@mixin button($color, $rounded: false) {
+    color: $color;
+    @if $rounded {
+        border-radius: $rounded;
+    }
+}
+
+background: rgba($color, 0.8)
+// color utilites
+lighten($color, 20%); darken($color, 20%)
+saturate($color, 20%); desaturate($color, 17%)
+mix(green, yellow)
+grayscale()
+invert()
+complement($color)
+
+// sass decorations
+@mixin respond-to($val, $query) {
+    @media ($val: $query) {
+        @content
+    }
+}
+
+$tablet = max-width, 900px;
+
+.sidebar {
+    border: 1px solid #ccc;
+    @include respond-to($tablet...) { // all inside is @content
+        float: right;
+        width: 30%;
+    }
+}
+
+// .sass mixin syntax
+=box-sizing($x)
+    box-sizing: $x
+
+.content
+    +box-sizing(border-box)
+
+// lists
+$authors: nick aimee dan drew
+length($authors
+append($authors, tim)
+join($authors1, $authors2) // [1, 2, 3, 4]
+index($authors, dan) // 3
+index($authors, betsy) // false for no in list
+nth($authors, 3) // dan
+zip($authors, $colors) // [[dan, green], [paul, yellow]]
+
+@each $a in $author-style
+    .author-#{$nth($a, 1)}
+        background: nth($a, 2)
+
+.author
+    float: left
+    width: 100% / length($authors)
+
+// sass ternary operator
+if(condition, "true", "false")
+
+// use style of placeholder as a class
+%btn
+.btn
+    border: 1px solid #ccc
+    font-size: 1em
+    text-transform: uppercase
+
+@import "compass"
+@import "compass/layout"
+
+.content
+    +background(radial-intent)
+
+scale-lightness(#eee, 7%)
+scale-saturation
+shade()
+tint()
+background: inline-image('s.png') // inline image in css with base64
