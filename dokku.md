@@ -1,4 +1,4 @@
-```node:
+    node:
 	procfile]]	web: node app_name.js
 	package.json
 	...
@@ -9,11 +9,12 @@
 	},
 	app.js
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-python:
-    procfile
-    web: gunicorn app_name:app
-	requrements.txt```
+    python:
+        procfile
+        web: gunicorn app_name:app
+	    requrements.txt
 
+***
 
 `dokku help`
 
